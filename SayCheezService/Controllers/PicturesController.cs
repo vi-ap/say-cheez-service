@@ -30,8 +30,9 @@ namespace SayCheezService.Controllers
         }
 
         // POST: api/Pictures
-        public void Post([FromBody]string value)
+        public void Post([FromBody]byte[] pictureCaptured)
         {
+            Debug.WriteLine(pictureCaptured);
         }
 
         // PUT: api/Pictures/5
