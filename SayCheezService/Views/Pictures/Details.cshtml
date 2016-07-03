@@ -2,7 +2,6 @@
 
 @{
     ViewBag.Title = "Details";
-    var imgSrc = String.Format("data:image/png;base64,{0}", Model.SerializedContent);
 }
 
 <h2>Details</h2>
@@ -10,8 +9,34 @@
 <div>
     <h4>Picture</h4>
     <hr />
-    <img src="@imgSrc"/>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Time)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Time)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Content)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Content)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SerializedContent)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SerializedContent)
+        </dd>
+
+    </dl>
 </div>
 <p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
