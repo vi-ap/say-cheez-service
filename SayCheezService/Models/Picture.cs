@@ -17,7 +17,7 @@ namespace SayCheezService.Models
 
         public Bitmap getImage()
         {
-            MemoryStream stream = new MemoryStream();
+            MemoryStream stream = new MemoryStream(Content);
             Bitmap image = new Bitmap(stream);
             stream.Close();
             return image;
