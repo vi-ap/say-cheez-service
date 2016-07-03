@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Details";
-    var imgSrc = String.Format("data:image/png;base64,{0}", Convert.ToBase64String(Model.Content));
+    var imgSrc = String.Format("data:image/png;base64,{0}", Model.Content);
 }
 
 <h2>Details</h2>
@@ -10,7 +10,7 @@
 <div>
     <h4>Picture</h4>
     <hr />
-    <img src="@imgSrc" />
+    <img src="@imgSrc"/>
 </div>
 <p>
     @Html.ActionLink("Back to List", "Index")
