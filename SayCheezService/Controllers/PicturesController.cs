@@ -2,103 +2,117 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
-using System.Web.Http;
-using System.Web.Http.Description;
+using System.Web;
+using System.Web.Mvc;
 using SayCheezService.Models;
 
 namespace SayCheezService.Controllers
 {
-    public class PicturesController : ApiController
+    public class PicturesController : Controller
     {
         private PictureContext db = new PictureContext();
 
-        // GET: api/Pictures
-        public IQueryable<Picture> GetPictures()
+        // GET: Pictures
+        public ActionResult Index()
         {
-            return db.Pictures;
+            return View(db.Pictures.ToList());
         }
 
-        // GET: api/Pictures/5
-        [ResponseType(typeof(Picture))]
-        public IHttpActionResult GetPicture(int id)
+        // GET: Pictures/Details/5
+        public ActionResult Details(int? id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             Picture picture = db.Pictures.Find(id);
             if (picture == null)
             {
-                return NotFound();
+                return HttpNotFound();
             }
-
-            return Ok(picture);
+            return View(picture);
         }
 
-        // PUT: api/Pictures/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutPicture(int id, Picture picture)
+        // GET: Pictures/Create
+        public ActionResult Create()
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            return View();
+        }
 
-            if (id != picture.Id)
+        // POST: Pictures/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "Id,Time,Content")] Picture picture)
+        {
+            if (ModelState.IsValid)
             {
-                return BadRequest();
-            }
-
-            db.Entry(picture).State = EntityState.Modified;
-
-            try
-            {
+                db.Pictures.Add(picture);
                 db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PictureExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return RedirectToAction("Index");
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return View(picture);
         }
 
-        // POST: api/Pictures
-        [ResponseType(typeof(Picture))]
-        public IHttpActionResult PostPicture(Picture picture)
+        // GET: Pictures/Edit/5
+        public ActionResult Edit(int? id)
         {
-            if (!ModelState.IsValid)
+            if (id == null)
             {
-                return BadRequest(ModelState);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-
-            db.Pictures.Add(picture);
-            db.SaveChanges();
-
-            return CreatedAtRoute("DefaultApi", new { id = picture.Id }, picture);
-        }
-
-        // DELETE: api/Pictures/5
-        [ResponseType(typeof(Picture))]
-        public IHttpActionResult DeletePicture(int id)
-        {
             Picture picture = db.Pictures.Find(id);
             if (picture == null)
             {
-                return NotFound();
+                return HttpNotFound();
             }
+            return View(picture);
+        }
 
+        // POST: Pictures/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "Id,Time,Content")] Picture picture)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(picture).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(picture);
+        }
+
+        // GET: Pictures/Delete/5
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Picture picture = db.Pictures.Find(id);
+            if (picture == null)
+            {
+                return HttpNotFound();
+            }
+            return View(picture);
+        }
+
+        // POST: Pictures/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            Picture picture = db.Pictures.Find(id);
             db.Pictures.Remove(picture);
             db.SaveChanges();
-
-            return Ok(picture);
+            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
@@ -108,11 +122,6 @@ namespace SayCheezService.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }
-
-        private bool PictureExists(int id)
-        {
-            return db.Pictures.Count(e => e.Id == id) > 0;
         }
     }
 }
