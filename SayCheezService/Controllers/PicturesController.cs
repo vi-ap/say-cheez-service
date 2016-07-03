@@ -24,8 +24,9 @@ namespace SayCheezService.Controllers
         {
             return new Picture
             {
-                time = DateTime.Now,
-                photo = getMinionPicture()
+                Id = 0,
+                Time = DateTime.Now,
+                Content = getMinionPicture()
             };
         }
 
