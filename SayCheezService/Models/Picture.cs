@@ -14,6 +14,7 @@ namespace SayCheezService.Models
         public int Id { get; set; }
         public DateTime Time { get; set; }
         public byte[] Content { get; set; }
+        public string SerializedContent { get; set; }
 
         public Bitmap getImage()
         {
