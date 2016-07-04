@@ -44,7 +44,7 @@ namespace SayCheezService.Controllers
             {
                 return BadRequest(ModelState);
             }
-            picture.Content = (byte[])JsonConvert.DeserializeObject(picture.SerializedContent);
+            picture.Content = Convert.FromBase64String(picture.SerializedContent);
             db.Pictures.Add(picture);
             db.SaveChanges();
 
