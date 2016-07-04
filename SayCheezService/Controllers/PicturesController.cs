@@ -58,37 +58,6 @@ namespace SayCheezService.Controllers
             return View(picture);
         }
 
-        // GET: Pictures/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Picture picture = db.Pictures.Find(id);
-            if (picture == null)
-            {
-                return HttpNotFound();
-            }
-            return View(picture);
-        }
-
-        // POST: Pictures/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Time,Content,SerializedContent,ReducedContent")] Picture picture)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(picture).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(picture);
-        }
-
         // GET: Pictures/Delete/5
         public ActionResult Delete(int? id)
         {
