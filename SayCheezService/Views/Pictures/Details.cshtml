@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Details";
     var imgSrc = String.Format("data:image/png;base64,{0}", Model.SerializedContent);
+    var greyImgSrc = String.Format("data:image/png;base64,{0}", Convert.ToBase64String(Model.ReducedContent));
 }
 
 <h2>Details</h2>
@@ -11,6 +12,7 @@
     <h4>@Html.DisplayNameFor(model => model.Time) : @Html.DisplayFor(model => model.Time)</h4>
     <hr />
     <img src="@imgSrc" />
+    <img src="@greyImgSrc" />
 </div>
 <p>
     @Html.ActionLink("Back to List", "Index")

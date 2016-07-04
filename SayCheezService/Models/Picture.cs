@@ -19,10 +19,35 @@ namespace SayCheezService.Models
 
         public Bitmap getImage()
         {
-            MemoryStream stream = new MemoryStream(Content);
+            MemoryStream stream = new MemoryStream(this.Content);
             Bitmap image = new Bitmap(stream);
             stream.Close();
             return image;
+        }
+
+        public void SetPropertiesOnNewUpload()
+        {
+            if(String.IsNullOrEmpty(this.SerializedContent))
+            {
+                return;
+            }
+
+            this.Content = Convert.FromBase64String(this.SerializedContent);
+
+            Bitmap colourImage = getImage();
+            Bitmap greyImage = new Bitmap(colourImage);
+
+            for(int x = 0; x < colourImage.Width; x++)
+            {
+                for(int y = 0; y < colourImage.Height; y++)
+                {
+                    Color color = colourImage.GetPixel(x, y);
+                    int rgb = (int)(color.R + color.G + color.B) / 3;
+                    greyImage.SetPixel(x, y, Color.FromArgb(rgb, rgb, rgb));
+                }
+            }
+
+            this.ReducedContent = (byte[])(new ImageConverter()).ConvertTo(greyImage, typeof(byte[]));
         }
     }
 }
