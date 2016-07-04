@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using SayCheezService.Models;
+using Newtonsoft.Json;
 
 namespace SayCheezService.Controllers
 {
@@ -39,11 +40,11 @@ namespace SayCheezService.Controllers
         [ResponseType(typeof(Picture))]
         public IHttpActionResult PostPicture(Picture picture)
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || String.IsNullOrEmpty(picture.SerializedContent))
             {
                 return BadRequest(ModelState);
             }
-
+            picture.Content = (byte[])JsonConvert.DeserializeObject(picture.SerializedContent);
             db.Pictures.Add(picture);
             db.SaveChanges();
 
