@@ -35,29 +35,6 @@ namespace SayCheezService.Controllers
             return View(picture);
         }
 
-        // GET: Pictures/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Pictures/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Time,Content,SerializedContent,ReducedContent")] Picture picture)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Pictures.Add(picture);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View(picture);
-        }
-
         // GET: Pictures/Delete/5
         public ActionResult Delete(int? id)
         {
