@@ -35,41 +35,6 @@ namespace SayCheezService.Controllers
             return Ok(picture);
         }
 
-        // PUT: api/Uploads/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutPicture(int id, Picture picture)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != picture.Id)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(picture).State = EntityState.Modified;
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PictureExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
-        }
-
         // POST: api/Uploads
         [ResponseType(typeof(Picture))]
         public IHttpActionResult PostPicture(Picture picture)
@@ -83,22 +48,6 @@ namespace SayCheezService.Controllers
             db.SaveChanges();
 
             return CreatedAtRoute("DefaultApi", new { id = picture.Id }, picture);
-        }
-
-        // DELETE: api/Uploads/5
-        [ResponseType(typeof(Picture))]
-        public IHttpActionResult DeletePicture(int id)
-        {
-            Picture picture = db.Pictures.Find(id);
-            if (picture == null)
-            {
-                return NotFound();
-            }
-
-            db.Pictures.Remove(picture);
-            db.SaveChanges();
-
-            return Ok(picture);
         }
 
         protected override void Dispose(bool disposing)
