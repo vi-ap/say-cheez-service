@@ -42,7 +42,7 @@ namespace SayCheezService.Models
                 for(int y = 0; y < colourImage.Height; y++)
                 {
                     Color color = colourImage.GetPixel(x, y);
-                    int rgb = (int)(color.R + color.G + color.B) / 3;
+                    int rgb = (int)(color.R * .3 + color.G * .59 + color.B * .11) / 3;
                     greyImage.SetPixel(x, y, Color.FromArgb(rgb, rgb, rgb));
                 }
             }
